@@ -11,7 +11,8 @@ class Users(models.Model):
     password = models.CharField(null=False)
     createdAt = models.DateTimeField(default=timezone.now, editable=False)
     updatedAt = models.DateTimeField(auto_now=True)
-
+    role = models.TextField(default='USER')
+    
 class Meta:
     db_table='users'
 
