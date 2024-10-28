@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import  Appointment , AppointmentReminder
 
-# Register your models here.
+admin.site.register(Appointment)
+admin.site.register(AppointmentReminder)
