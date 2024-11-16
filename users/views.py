@@ -10,6 +10,11 @@ from .forms import (
 )
 
 def login_view(request):
+    # you  try to login while you are logged in
+    if request.user.is_authenticated:
+        redirect("users:profile")
+
+        # this is continue by loggin the user 
     if request.method == 'POST':
         form = UserLoginForm(data=request.POST)
         if form.is_valid():
@@ -17,7 +22,6 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, 'Login successful!')
-                # return render(request, 'base.html',{'form': form})
                 redirect("users:profile")
             else:
                 messages.error(request, 'Authentication failed.')
@@ -78,9 +82,8 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
-    user = request.user
-    # profile = None 
-    return render(request,  {
+    # this is to get the logged user 
+    user = request.user 
+    return render(request, 'users/profile.html', {
         'user': user,
-        # 'profile': profile
     })
