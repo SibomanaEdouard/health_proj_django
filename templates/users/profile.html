@@ -26,14 +26,11 @@
                             <p><strong>Blood Group:</strong> {{ profile.blood_group }}</p>
                             <p><strong>Emergency Contact:</strong> {{ profile.emergency_contact }}</p>
                             <p><strong>Address:</strong> {{ profile.address }}</p>
-                        {% elif user.user_type == 'doctor' and profile %}
+                        {% elif user.user_type == 'hospital_worker' and profile %}
                             <p><strong>Specialization:</strong> {{ profile.specialization }}</p>
                             <p><strong>License Number:</strong> {{ profile.license_number }}</p>
                             <p><strong>Department:</strong> {{ profile.department }}</p>
                             <p><strong>Consultation Fee:</strong> ${{ profile.consultation_fee }}</p>
-                        {% elif user.user_type == 'nurse' and profile %}
-                            <p><strong>Department:</strong> {{ profile.department }}</p>
-                            <p><strong>Shift:</strong> {{ profile.shift }}</p>
                         {% endif %}
                     </div>
                 </div>

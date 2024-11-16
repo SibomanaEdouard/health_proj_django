@@ -13,13 +13,12 @@ def login_view(request):
     if request.method == 'POST':
         form = UserLoginForm(data=request.POST)
         if form.is_valid():
-            print("The form is valid")
             user = form.get_user()
-            print("The user is ", user)
             if user is not None:
                 login(request, user)
                 messages.success(request, 'Login successful!')
-                return render(request, 'base.html',{'form': form})
+                # return render(request, 'base.html',{'form': form})
+                redirect("users:profile")
             else:
                 messages.error(request, 'Authentication failed.')
         else:
@@ -81,7 +80,7 @@ def logout_view(request):
 def profile_view(request):
     user = request.user
     # profile = None 
-    return render(request, 'base.html', {
+    return render(request,  {
         'user': user,
         # 'profile': profile
     })
