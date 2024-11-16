@@ -5,6 +5,21 @@ from .models import User
 # , Patient, Doctor, Nurse
 from django.contrib.auth.forms import AuthenticationForm
 
+# class UserLoginForm(AuthenticationForm):
+#     username = forms.EmailField(widget=forms.EmailInput(attrs={
+#         'class': 'form-control',
+#         'placeholder': 'Email',
+#     }))
+#     password = forms.CharField(widget=forms.PasswordInput(attrs={
+#         'class': 'form-control',
+#         'placeholder': 'Password',
+#     }))
+
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.fields['username'].label = "Email"  
+
+
 class UserLoginForm(AuthenticationForm):
     username = forms.EmailField(widget=forms.EmailInput(attrs={
         'class': 'form-control',
@@ -17,7 +32,24 @@ class UserLoginForm(AuthenticationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['username'].label = "Email"  
+        self.fields['username'].label = "Email"
+
+    def clean(self):
+        email = self.cleaned_data.get('username')  # username represents the email
+        password = self.cleaned_data.get('password')
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise forms.ValidationError("Invalid email or password.")
+        
+        if not user.check_password(password):
+            raise forms.ValidationError("Invalid email or password.")
+        
+        if not user.is_active:
+            raise forms.ValidationError("This account is inactive.")
+        
+        return super().clean()
+
 
 
 

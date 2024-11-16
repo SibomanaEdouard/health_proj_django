@@ -19,17 +19,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, 'Login successful!')
-                # Redirect based on user type
-                if user.user_type == 'user':
-                    return redirect('base')
-                elif user.user_type == 'patient':
-                    return redirect('patient_dashboard')
-                elif user.user_type == 'doctor':
-                    return redirect('doctor_dashboard')
-                elif user.user_type == 'nurse':
-                    return redirect('nurse_dashboard')
-                else:
-                    return redirect('admin_dashboard')
+                return render(request, 'base.html',{'form': form})
             else:
                 messages.error(request, 'Authentication failed.')
         else:
@@ -75,7 +65,6 @@ def register_view(request):
         'user_form': user_form,
         # 'patient_form': PatientRegistrationForm(),
         # 'doctor_form': DoctorRegistrationForm(),
-        # 'nurse_form': NurseRegistrationForm(),
     }
     
     return render(request, 'users/register.html', context)
@@ -87,19 +76,12 @@ def logout_view(request):
     messages.success(request, 'You have been logged out successfully.')
     return redirect('users:login')
 
+
 @login_required
 def profile_view(request):
     user = request.user
-    profile = None
-    
-    if user.user_type == 'patient':
-        profile = user.patient_profile
-    elif user.user_type == 'doctor':
-        profile = user.doctor_profile
-    elif user.user_type == 'nurse':
-        profile = user.nurse_profile
-    
-    return render(request, 'users/profile.html', {
+    # profile = None 
+    return render(request, 'base.html', {
         'user': user,
-        'profile': profile
+        # 'profile': profile
     })
