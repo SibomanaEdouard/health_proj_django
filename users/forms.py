@@ -3,28 +3,30 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from .models import User
 # , Patient, Doctor, Nurse
+from django.contrib.auth.forms import AuthenticationForm
 
+# class UserLoginForm(AuthenticationForm):
+#     username = forms.EmailField(widget=forms.EmailInput(attrs={
+#         'class': 'form-control',
+#         'placeholder': 'Email',
+#     }))
+#     password = forms.CharField(widget=forms.PasswordInput(attrs={
+#         'class': 'form-control',
+#         'placeholder': 'Password',
+#     }))
+
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.fields['username'].label = "Email"  
 
 class UserLoginForm(AuthenticationForm):
-    username = forms.EmailField(widget=forms.EmailInput(attrs={
-        'class': 'form-control',
-        'placeholder': 'Email'
-    }))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'class': 'form-control',
-        'placeholder': 'Password'
-    }))
+    username = forms.EmailField(label='Email')
 
     class Meta:
-        model = User
-        fields = ['username', 'password']
+        fields = ['username','password']
 
+# This is the registeration form 
 class UserRegistrationForm(UserCreationForm):
-    # USER_TYPES = (
-    #     ('patient', 'Patient'),
-    #     ('doctor', 'Doctor'),
-    #     ('nurse', 'Nurse'),
-    # )
     
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={
         'class': 'form-control',
