@@ -9,53 +9,34 @@ from .forms import (
     # PatientRegistrationForm, DoctorRegistrationForm, NurseRegistrationForm
 )
 
-# def login_view(request):
-#     if request.method == 'POST':
-#         form = UserLoginForm(data=request.POST)
-#         if form.is_valid():
-#             print("The form is valid")
-#             user = form.get_user()
-#             print("The user is ", user)
-#             if user is not None:
-#                 login(request, user)
-#                 messages.success(request, 'Login successful!')
-#                 # Redirect based on user type
-#                 if user.user_type == 'user':
-#                     return redirect('base')
-#                 elif user.user_type == 'patient':
-#                     return redirect('patient_dashboard')
-#                 elif user.user_type == 'doctor':
-#                     return redirect('doctor_dashboard')
-#                 elif user.user_type == 'nurse':
-#                     return redirect('nurse_dashboard')
-#                 else:
-#                     return redirect('admin_dashboard')
-#             else:
-#                 messages.error(request, 'Authentication failed.')
-#         else:
-#             print(f"Login form errors: {form.errors}")
-#             messages.error(request, 'Invalid email  or password.')
-#     else:
-#         form = UserLoginForm()
-#     return render(request, 'users/login.html', {'form': form})
-
-
 def login_view(request):
     if request.method == 'POST':
-        form = UserLoginForm(request, data=request.POST)
-        print("Logging in ")
-        print("This is the form data : ",form)
-        if form.is_valid ():
-            print("Form is valid")
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+        form = UserLoginForm(data=request.POST)
+        if form.is_valid():
+            print("The form is valid")
+            user = form.get_user()
+            print("The user is ", user)
             if user is not None:
                 login(request, user)
-                return redirect('blogs:home')  # Replace 'home' with your desired redirect URL
+                messages.success(request, 'Login successful!')
+                # Redirect based on user type
+                if user.user_type == 'user':
+                    return redirect('base')
+                elif user.user_type == 'patient':
+                    return redirect('patient_dashboard')
+                elif user.user_type == 'doctor':
+                    return redirect('doctor_dashboard')
+                elif user.user_type == 'nurse':
+                    return redirect('nurse_dashboard')
+                else:
+                    return redirect('admin_dashboard')
+            else:
+                messages.error(request, 'Authentication failed.')
+        else:
+            print(f"Login form errors: {form.errors}")
+            messages.error(request, 'Invalid email  or password.')
     else:
         form = UserLoginForm()
-        print("Failed to login , you sent invalid form ")
     return render(request, 'users/login.html', {'form': form})
 
 

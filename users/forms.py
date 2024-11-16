@@ -5,25 +5,21 @@ from .models import User
 # , Patient, Doctor, Nurse
 from django.contrib.auth.forms import AuthenticationForm
 
-# class UserLoginForm(AuthenticationForm):
-#     username = forms.EmailField(widget=forms.EmailInput(attrs={
-#         'class': 'form-control',
-#         'placeholder': 'Email',
-#     }))
-#     password = forms.CharField(widget=forms.PasswordInput(attrs={
-#         'class': 'form-control',
-#         'placeholder': 'Password',
-#     }))
-
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.fields['username'].label = "Email"  
-
 class UserLoginForm(AuthenticationForm):
-    username = forms.EmailField(label='Email')
+    username = forms.EmailField(widget=forms.EmailInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Email',
+    }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Password',
+    }))
 
-    class Meta:
-        fields = ['username','password']
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].label = "Email"  
+
+
 
 # This is the registeration form 
 class UserRegistrationForm(UserCreationForm):
